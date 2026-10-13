@@ -1,4 +1,6 @@
+import { existsSync } from "node:fs";
 import http from "node:http";
+import { resolve } from "node:path";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import express, {
@@ -41,6 +43,24 @@ function createApp() {
   app.use("/api", (_req: Request, res: Response) => {
     res.status(404).json({ error: "Not found" });
   });
+
+  if (env.isProduction) {
+    const clientDistPath = resolve(process.cwd(), "../client/dist");
+    const indexPath = resolve(clientDistPath, "index.html");
+
+    if (!existsSync(indexPath)) {
+      throw new Error(`Frontend build not found at ${indexPath}`);
+    }
+
+    app.use(express.static(clientDistPath));
+    app.get("/{*path}", (_req, res, next) => {
+      res.sendFile(indexPath, (error) => {
+        if (error) {
+          next(error);
+        }
+      });
+    });
+  }
 
   // Express 5 forwards rejected promises from async handlers here.
   app.use((error: unknown, _req: Request, res: Response, next: NextFunction) => {

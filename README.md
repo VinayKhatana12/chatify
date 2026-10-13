@@ -32,6 +32,24 @@ npm run dev                   # → http://localhost:5173
 The Vite dev server proxies `/api` and `/socket.io` to the backend, so the
 client works with same-origin requests in development (no CORS setup needed).
 
+## Deploy on Render
+
+The root `render.yaml` configures one Render web service to build and serve both
+the frontend and API on the same origin. This keeps the httpOnly auth cookie and
+Socket.io connection on the same site.
+
+1. In Render, create a new Blueprint and select this GitHub repository.
+2. Set the service's `MONGO_URI` environment variable in the Render dashboard
+   to the rotated MongoDB Atlas connection string. Do not commit it to Git.
+3. Deploy the Blueprint. Render generates `JWT_SECRET`; the build creates
+   `client/dist`, and the server serves it alongside `/api` and `/socket.io`.
+4. Confirm the service is healthy at `/api/health`, then test signup, login,
+   messaging, and Socket.io in the deployed app.
+
+The free plan may sleep after inactivity, so the first request after a quiet
+period can take longer. Configure the optional `CLOUDINARY_*` variables in
+Render if image uploads are needed.
+
 ## Data model (`server/src/models/`)
 
 | Model | Fields |
