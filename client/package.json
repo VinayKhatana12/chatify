@@ -1,0 +1,32 @@
+{
+  "name": "chatify-client",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Chatify frontend — React + Vite + Tailwind CSS v4",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc -b --force"
+  },
+  "dependencies": {
+    "axios": "^1.20.0",
+    "lucide-react": "^1.55.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "socket.io-client": "^4.8.4",
+    "sonner": "^2.0.8",
+    "zustand": "^5.0.15"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^22.15.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "tailwindcss": "^4.3.3",
+    "typescript": "~5.9.2",
+    "vite": "^8.3.4"
+  }
+}

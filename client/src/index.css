@@ -1,0 +1,168 @@
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap");
+@import "tailwindcss";
+
+/*
+ * Tailwind v4 CSS-first config. Deep zinc theme inspired by Linear's restraint
+ * and Telegram's chat ergonomics: off-black surfaces, 1px zinc-800 lines,
+ * one accent (emerald, presence + read state), everything else monochrome.
+ */
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: var(--color-zinc-100);
+  --foreground: var(--color-zinc-900);
+  --card: #ffffff;
+  --muted: var(--color-zinc-200);
+  --muted-foreground: var(--color-zinc-600);
+  --primary: var(--color-zinc-900);
+  --primary-foreground: var(--color-zinc-50);
+  --border: var(--color-zinc-300);
+  --input: var(--color-zinc-200);
+  --ring: var(--color-zinc-400);
+  --bubble-in: var(--color-zinc-50);
+  --bubble-out: var(--color-zinc-800);
+}
+
+.dark {
+  --background: #09090b;              /* zinc-950, off-black */
+  --foreground: #f4f4f5;              /* zinc-100, off-white */
+  --card: #101012;                    /* sidebar/header surface */
+  --card-elevated: #18181b;           /* zinc-900, popovers */
+  --muted: #1c1c1f;
+  --muted-foreground: #8b8b93;
+  --primary: #f4f4f5;
+  --primary-foreground: #09090b;
+  --border: #27272a;                  /* zinc-800 */
+  --input: #1c1c1f;
+  --ring: #3f3f46;                    /* zinc-700 */
+  --bubble-in: #1a1a1d;
+  --bubble-out: #2e2e33;
+  --online: #10b981;                  /* emerald-500, the single accent */
+  --hover: rgba(39, 39, 42, 0.5);     /* zinc-800/50 */
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-elevated: var(--card-elevated);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-bubble-in: var(--bubble-in);
+  --color-bubble-out: var(--bubble-out);
+  --color-online: var(--online);
+  --color-hover: var(--hover);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Slim, quiet scrollbars everywhere */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-zinc-800) transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-zinc-800);
+    border-radius: 8px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-zinc-700);
+  }
+
+  button:not(:disabled) {
+    transition: transform 120ms ease, background-color 150ms ease, color 150ms ease,
+      border-color 150ms ease, opacity 150ms ease;
+  }
+  button:not(:disabled):active {
+    transform: scale(0.97);
+  }
+}
+
+/* Motion: transform/opacity only, honored by reduced-motion */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes typing-bounce {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.35;
+  }
+  30% {
+    transform: translateY(-3px);
+    opacity: 1;
+  }
+}
+
+@utility animate-fade-up {
+  animation: fade-up 180ms cubic-bezier(0.2, 0.8, 0.3, 1) both;
+}
+
+@utility animate-fade-in {
+  animation: fade-in 200ms ease-out both;
+}
+
+@utility typing-dot {
+  animation: typing-bounce 1.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-up,
+  .animate-fade-in,
+  .typing-dot {
+    animation: none;
+  }
+  button:not(:disabled),
+  button:not(:disabled):active {
+    transition: none;
+    transform: none;
+  }
+  * {
+    scroll-behavior: auto !important;
+  }
+}
